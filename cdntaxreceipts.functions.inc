@@ -100,11 +100,11 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
     unlink($pdf_file); // file is no longer needed
     return array( $ret, 'email', NULL );
   }
-  else {
-    if ( isset($collectedPdf) ) {
-      unlink($pdf_file); // file is no longer needed
-      $pdf_file = NULL;
-    }
+  else { //xxxxxxxxxxxxxx
+    // if ( isset($collectedPdf) ) {
+    //   unlink($pdf_file); // file is no longer needed
+    //   $pdf_file = NULL;
+    // }
     // if not unset, cron will clean up the PDF file later on
     return array( $ret, 'print', $pdf_file );
   }
@@ -795,7 +795,8 @@ function cdntaxreceipts_openCollectedPDF() {
 }
 
 function cdntaxreceipts_sendCollectedPDF(&$pdf, $filename) {
-  if ( $pdf->getNumPages() > 0 ) {
+
+  if ( isset($pdf->_res["page"][1]) ) {
     $pdf->Output($filename, 'D');
     CRM_Utils_System::civiExit();
   }

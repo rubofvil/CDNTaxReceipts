@@ -1625,6 +1625,16 @@ function _putimages()
 		unset($this->images[$file]['smask']);
 	}
 }
+public function setJPEGQuality($quality) {
+	if (($quality < 1) OR ($quality > 100)) {
+		$quality = 75;
+	}
+	$this->jpeg_quality = intval($quality);
+}
+
+public function getNumPages() {
+	return $this->numpages;
+}
 
 function _putimage(&$info)
 {

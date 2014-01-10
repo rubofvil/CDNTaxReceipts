@@ -22,7 +22,7 @@ class CRM_Cdntaxreceipts_Task_IssueAnnualTaxReceipts extends CRM_Contact_Form_Ta
     //check for permission to edit contributions
     if ( ! CRM_Core_Permission::check('issue cdn tax receipts') ) {
       CRM_Core_Error::fatal(ts('You do not have permission to access this page'));
-    } 
+    }
 
     parent::preProcess();
 
@@ -158,8 +158,7 @@ class CRM_Cdntaxreceipts_Task_IssueAnnualTaxReceipts extends CRM_Contact_Form_Ta
         break;
       }
 
-      if ( empty($issuedOn) && count($contributions) > 0 ) { 
-
+      if ( empty($issuedOn) && count($contributions) > 0 ) {
         list( $ret, $method ) = cdntaxreceipts_issueAnnualTaxReceipt($contactId, $year, $receiptsForPrinting, $previewMode);
 
         if ( $ret == 0 ) {
@@ -197,6 +196,7 @@ class CRM_Cdntaxreceipts_Task_IssueAnnualTaxReceipts extends CRM_Contact_Form_Ta
 
     // 4. send the collected PDF for download
     // NB: This exits if a file is sent.
+
     cdntaxreceipts_sendCollectedPDF($receiptsForPrinting, 'Receipts-To-Print-' . REQUEST_TIME . '.pdf');  // EXITS.
   }
 }
