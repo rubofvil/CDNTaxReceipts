@@ -106,7 +106,8 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
     //   $pdf_file = NULL;
     // }
     // if not unset, cron will clean up the PDF file later on
-    return array( $ret, 'print', $pdf_file );
+    cdntaxreceipts_log($receipt);
+    return array( TRUE, 'print', $pdf_file );
   }
 }
 
