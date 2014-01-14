@@ -233,6 +233,9 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
 function cdntaxreceipts_createPDF(&$pdf, $pdf_variables) {
 
   // Extract variables
+  // echo "<pre>";
+  // CRM_Core_Session::setStatus(print_r($pdf_variables), '', 'success');
+
   $preview_mode = $pdf_variables["preview_mode"];
   $mymargin_left = $pdf_variables["mymargin_left"];
   $mymargin_top = $pdf_variables["mymargin_top"];
@@ -306,6 +309,16 @@ function cdntaxreceipts_createPDF(&$pdf, $pdf_variables) {
   $pdf->Write(10, "Received on: " . $display_date);
   $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 18);
   $pdf->Write(10, "Eligible Amount:  $" . number_format($amount, 2));
+  $amounts = "";
+
+  foreach ($pdf_variables["receipt_contributions"] as $key => $value) {
+    $amounts .= $value["contribution_amount"] . " ";
+  }
+
+  $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 24);
+  $pdf->Write(10, "Sum Amounts:  $" . $amounts);
+
+
   $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 34);
 
   if ($issue_type == 'annual') {
@@ -619,47 +632,52 @@ function cdntaxreceipts_issueTaxReceipt( $contribution, &$collectedPdf = NULL, $
 }
 
 function cdntaxreceipts_eligibleForReceipt( $contributionId ) {
-  require_once('CRM/Contribute/DAO/Contribution.php');
-  $contribution =  new CRM_Contribute_DAO_Contribution();
-  $contribution->id = $contributionId;
+  // require_once('CRM/Contribute/DAO/Contribution.php');
+  // $contribution =  new CRM_Contribute_DAO_Contribution();
 
-  if ( ! $contribution->find( TRUE ) ) {
-    CRM_Core_Error::fatal( "CDNTaxReceipts: Could not retrieve details for this contribution" );
-  }
+  // $contribution->id = $contributionId;
 
-  // 1. check that contribution amount is deductible
-  $deductibleAmount = $contribution->total_amount - $contribution->non_deductible_amount;
+  // if ( ! $contribution->find( TRUE ) ) {
+  //   CRM_Core_Error::fatal( "CDNTaxReceipts: Could not retrieve details for this contribution" );
+  // }
 
-  // 2. check if the contribution is of a Type that is indeed Tax receiptable.
-  $contributionType =  _cdntaxreceipts_get_type_for_contribution($contribution);
+  // echo "<pre>";
+  // print_r($contribution);
+  // die;
 
-  // 3. check if the Contribution Status is Completed ( i.e. = 1 )
-  $contributionStatus = $contribution->contribution_status_id;
-  if ( !isset($contributionStatus) ) {
-    CRM_Core_Error::fatal( "CDNTaxReceipts: Could not find status of this Contribution." );
-  }
+  // // 1. check that contribution amount is deductible
+  // $deductibleAmount = $contribution->total_amount - $contribution->non_deductible_amount;
 
-  // invoke hook_cdntaxreceipts_eligible:
-  //   module implementations should return an array containing a single item,
-  //   either TRUE or FALSE. assumes TRUE until we receive a FALSE. one FALSE
-  //   disqualifies the contribution for a tax receipt.
-  $results = CRM_Utils_Hook::singleton()->invoke(1, $contribution, CRM_Utils_Hook::$_nullObject, CRM_Utils_Hook::$_nullObject, CRM_Utils_Hook::$_nullObject, CRM_Utils_Hook::$_nullObject, 'cdntaxreceipts_eligible');
-  $hookOk = TRUE;
+  // // 2. check if the contribution is of a Type that is indeed Tax receiptable.
+  // $contributionType =  _cdntaxreceipts_get_type_for_contribution($contribution);
 
-  if (is_array($results)) {
-    foreach ( $results as $result ) {
-      if ( $result == FALSE ) {
-        $hookOk = FALSE;
-      }
-    }
-  }
+  // // 3. check if the Contribution Status is Completed ( i.e. = 1 )
+  // $contributionStatus = $contribution->contribution_status_id;
+  // if ( !isset($contributionStatus) ) {
+  //   CRM_Core_Error::fatal( "CDNTaxReceipts: Could not find status of this Contribution." );
+  // }
 
-  if ( $contributionType->is_deductible && $contributionStatus == '1' && $contribution->is_test == 0 && $deductibleAmount > 0 && $hookOk ) {
+  // // invoke hook_cdntaxreceipts_eligible:
+  // //   module implementations should return an array containing a single item,
+  // //   either TRUE or FALSE. assumes TRUE until we receive a FALSE. one FALSE
+  // //   disqualifies the contribution for a tax receipt.
+  // $results = CRM_Utils_Hook::singleton()->invoke(1, $contribution, CRM_Utils_Hook::$_nullObject, CRM_Utils_Hook::$_nullObject, CRM_Utils_Hook::$_nullObject, CRM_Utils_Hook::$_nullObject, 'cdntaxreceipts_eligible');
+  // $hookOk = TRUE;
+
+  // if (is_array($results)) {
+  //   foreach ( $results as $result ) {
+  //     if ( $result == FALSE ) {
+  //       $hookOk = FALSE;
+  //     }
+  //   }
+  // }
+
+  // if ( $contributionType->is_deductible && $contributionStatus == '1' && $contribution->is_test == 0 && $deductibleAmount > 0 && $hookOk ) {
     return TRUE;
-  }
-  else {
-    return FALSE;
-  }
+  // }
+  // else {
+  //   return FALSE;
+  // }
 
 }
 
@@ -756,14 +774,14 @@ function cdntaxreceipts_sendMethodForContact( $contactId ) {
 
 function cdntaxreceipts_sendMethodForContribution( $contributionId ) {
 
-  $contribution =  new CRM_Contribute_DAO_Contribution();
-  $contribution->id = $contributionId;
-
-  if ( ! $contribution->find( TRUE ) ) {
-    CRM_Core_Error::fatal( "CDNTaxReceipts: Could not retrieve details for this contribution" );
+  $query = "SELECT contact_id FROM civicrm_contribution
+                  WHERE  id = $contributionId";
+  $dao = CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
+  if ($dao->fetch()) {
+    $contact_id = $dao->contact_id;
   }
+  return cdntaxreceipts_sendMethodForContact( $contact_id );
 
-  return cdntaxreceipts_sendMethodForContact( $contribution->contact_id );
 }
 
 function cdntaxreceipts_openCollectedPDF() {
