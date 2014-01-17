@@ -213,6 +213,7 @@ function cdntaxreceipts_civicrm_disable() {
   return _cdntaxreceipts_civix_civicrm_disable();
 }
 
+
 /**
  * Implementation of hook_civicrm_upgrade
  *
@@ -235,3 +236,7 @@ function cdntaxreceipts_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
 function cdntaxreceipts_civicrm_managed(&$entities) {
   return _cdntaxreceipts_civix_civicrm_managed($entities);
 }
+
+
+
+

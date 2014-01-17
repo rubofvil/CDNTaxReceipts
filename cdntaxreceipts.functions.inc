@@ -813,6 +813,7 @@ function cdntaxreceipts_openCollectedPDF() {
 
 }
 
+
 function cdntaxreceipts_sendCollectedPDF(&$pdf, $filename) {
 
   if ( isset($pdf->_res["page"][1]) ) {

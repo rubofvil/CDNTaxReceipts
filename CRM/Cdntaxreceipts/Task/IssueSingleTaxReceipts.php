@@ -1,6 +1,6 @@
 <?php
 
-require_once('CRM/Contribute/Form/Task.php');
+require_once('CRM/Contribute/Form/Task.php');CRM_Contribute_Form_Search_Tax (org.civicrm.cdntaxreceipts)
 
 /**
  * This class provides the common functionality for issuing CDN Tax Receipts for
@@ -193,10 +193,13 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
     // Issue 1895204: Reset geocoding
     $config->geocodeMethod = $oldGeocode;
 
-    CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm', "reset=1"));
+    //CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm', "reset=1"));
 
     // 4. send the collected PDF for download
     // NB: This exits if a file is sent.
+    echo convert(memory_get_usage(true)); // 123 kb
+
+    //print_r($receiptsForPrinting);
     cdntaxreceipts_sendCollectedPDF($receiptsForPrinting, 'Receipts-To-Print-' . REQUEST_TIME . '.pdf');  // EXITS.
   }
 }

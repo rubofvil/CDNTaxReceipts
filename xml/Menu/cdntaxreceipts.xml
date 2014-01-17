@@ -12,4 +12,10 @@
     <title>Settings</title>
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/taxsearch</path>
+    <page_callback>CRM_Cdntaxreceipts_Form_ContributeSearchTax</page_callback>
+    <title>ContributeSearchTax</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
 </menu>
