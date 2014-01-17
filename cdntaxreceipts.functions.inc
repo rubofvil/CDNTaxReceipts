@@ -43,6 +43,7 @@ require_once('FPDI/fpdi.php');
  */
 function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $previewMode = FALSE ) {
 
+
   // determine the send method
   require_once('CRM/Contact/BAO/Contact.php');
   list($displayname, $email) = CRM_Contact_BAO_Contact::getContactDetails($receipt['contact_id']);
@@ -75,9 +76,26 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
     'returnPath' => $email_from,
   );
 
+  //Configuration if the user want the functionality send by email
+  $params = array( 
+    'version' => 3,
+    'domain_id' => 1,
+    'return' => 'send_mail_tax_receipt',
+  );
+
+  $result = civicrm_api('Setting', 'get', $params);  
+  
+  if(isset($result["values"][1])) {
+    $gen_conf_send_by_email = $result["values"][1];
+  }
+  else {
+    $gen_conf_send_by_email =  0;
+  }
+
+
   // if method is email, we send to contact and BCC email archive.
   // if method is print, we send to email archive only.
-  if ( $receipt['issue_method'] == 'email' ) {
+  if ( $receipt['issue_method'] == 'email' && $gen_conf_send_by_email) {
     $mailparams['toEmail'] = $email;
     $mailparams['bcc'] = $email_archive;
   }
@@ -97,12 +115,12 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
   }
 
   if ( $receipt['issue_method'] == 'email' ) {
-    unlink($pdf_file); // file is no longer needed
+    //unlink($pdf_file); // file now is needed
     return array( $ret, 'email', NULL );
   }
   else { //xxxxxxxxxxxxxx
     // if ( isset($collectedPdf) ) {
-    //   unlink($pdf_file); // file is no longer needed
+    //   unlink($pdf_file); // file now is needed
     //   $pdf_file = NULL;
     // }
     // if not unset, cron will clean up the PDF file later on
@@ -232,9 +250,7 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
 
 function cdntaxreceipts_createPDF(&$pdf, $pdf_variables) {
 
-  // Extract variables
-  // echo "<pre>";
-  // CRM_Core_Session::setStatus(print_r($pdf_variables), '', 'success');
+  // Extract variables  
 
   $preview_mode = $pdf_variables["preview_mode"];
   $mymargin_left = $pdf_variables["mymargin_left"];
@@ -687,6 +703,20 @@ function cdntaxreceipts_eligibleForReceipt( $contributionId ) {
  * Detects if the receipt is a duplicate and reacts appropriately.
  */
 function cdntaxreceipts_issueAnnualTaxReceipt( $contactId, $year, &$collectedPdf = NULL, $previewMode = FALSE ) {
+
+  $params = array(
+    'version' => 3,
+    'sequential' => 1,
+    'activity_name' => 'Tax_receipt',
+    'contact_id' => $contactId,
+    'custom_1' => $year,
+    'custom_2' => 'grouped',
+  );
+  $result = civicrm_api('Activity', 'create', $params);
+  
+  print_r($result);
+  die;
+
 
   // determine the send method
   list( $method, $email ) = cdntaxreceipts_sendMethodForContact($contactId);

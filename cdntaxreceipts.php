@@ -153,6 +153,8 @@ function cdntaxreceipts_civicrm_xmlMenu(&$files) {
 function cdntaxreceipts_civicrm_install() {
   // copy tables civicrm_cdntaxreceipts_log and civicrm_cdntaxreceipts_log_contributions IF they already exist
   // Issue: #1
+  require_once 'install/cdntaxreceipts_installer.php';
+  CdnTaxReceipts_Installer::install();
   return _cdntaxreceipts_civix_civicrm_install();
 }
 

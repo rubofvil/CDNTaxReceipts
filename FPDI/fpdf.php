@@ -1071,7 +1071,7 @@ function _checkoutput()
 			ob_clean();
 		}
 		else {
-			$this->Error("Some data has already been output, can't send PDF file");
+		//	$this->Error("Some data has already been output, can't send PDF file");
 		}
 
 	}
