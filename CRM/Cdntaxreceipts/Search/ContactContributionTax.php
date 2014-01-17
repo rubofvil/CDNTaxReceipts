@@ -12,9 +12,7 @@ class CRM_Cdntaxreceipts_Search_ContactContributionTax implements CRM_Contact_Fo
      */
     $this->_columns = array(
       ts('Contact Id') => 'contact_id',
-      ts('Name') => 'sort_name',
-      ts('Donation Count') => 'donation_count',
-      ts('Donation Amount') => 'donation_amount',
+      ts('Name') => 'sort_name'      
     );
   }
 
@@ -57,11 +55,9 @@ class CRM_Cdntaxreceipts_Search_ContactContributionTax implements CRM_Contact_Fo
     }
     else {
       $select = "
-DISTINCT contact_a.id as contact_id,
-contact_a.sort_name as sort_name,
-sum(contrib.total_amount) AS donation_amount,
-count(contrib.id) AS donation_count
-";
+        DISTINCT contact_a.id as contact_id,
+        contact_a.sort_name as sort_name
+      ";
     }
     $from = $this->from();
 
@@ -73,27 +69,13 @@ count(contrib.id) AS donation_count
     }
 
     $sql = "
-SELECT $select
-FROM   $from
-WHERE  $where
-GROUP BY contact_a.id
-$having
-";
-    //for only contact ids ignore order.
-    if (!$justIDs) {
-      // Define ORDER BY for query in $sort, with default value
-      if (!empty($sort)) {
-        if (is_string($sort)) {
-          $sql .= " ORDER BY $sort ";
-        }
-        else {
-          $sql .= " ORDER BY " . trim($sort->orderBy());
-        }
-      }
-      else {
-        $sql .= "ORDER BY donation_amount desc";
-      }
-    }
+      SELECT $select
+      FROM   $from
+      WHERE  $where
+      GROUP BY contact_a.id
+      $having
+    ";
+
 
     if ($rowcount > 0 && $offset >= 0) {
       $sql .= " LIMIT $offset, $rowcount ";
@@ -113,7 +95,6 @@ $having
 
   return $from;
   }
-
   /*
       * WHERE clause is an array built from any required JOINS plus conditional filters based on search criteria field values
       *
@@ -123,22 +104,12 @@ $having
 
     $clauses[] = "contrib.contact_id = contact_a.id";
     $clauses[] = "contrib.is_test = 0";
-    
-
-
-
 
     if ($this->_formValues["year"]) {
       $year = $this->_formValues["year"];
       $clauses[] = "contrib.receive_date >= $year" . "0101";
       $clauses[] = "contrib.receive_date <= $year" . "1231";
     }
-
-
-    
-    
-
-
 
     if ($includeContactIDs) {
       $contactIDs = array();
@@ -155,7 +126,6 @@ $having
         $clauses[] = "contact_a.id IN ( $contactIDs )";
       }
     }
-
 
     return implode(' AND ', $clauses);
   }
@@ -181,7 +151,7 @@ $having
      * Functions below generally don't need to be modified
      */
   function count() {
-    $sql = $this->all();    
+    $sql = $this->all();
     $dao = CRM_Core_DAO::executeQuery($sql,
       CRM_Core_DAO::$_nullArray
     );
