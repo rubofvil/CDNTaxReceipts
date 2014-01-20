@@ -4,7 +4,7 @@ require_once('FPDI/fpdi.php');
 
   class PDF extends FPDI {
     /**
-     * "Remembers" the template id of the imported page
+     * 'Remembers' the template id of the imported page
      */
     var $_tplIdx;
 
@@ -42,7 +42,21 @@ require_once('FPDI/fpdi.php');
  * This method is common to both single and annual receipts.
  */
 function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $previewMode = FALSE ) {
+  require_once 'CRM/Cdntaxreceipts/PseudoConstants.php';
+  $session = CRM_Core_Session::singleton();
+  $current_user = $session->get('userID');  
 
+  $params = array(
+    'version' => 3,
+    'sequential' => 1,
+    'activity_type_id' => ACTIVITY_TYPE_ID_TAX,
+    'contact_id' => $current_user,
+    'custom_1' => date("Y"),
+    'custom_2' => 'single',
+    'status_id' => '2',
+    'target_contact_id' => $receipt['contact_id'],
+  );
+  $result = civicrm_api('Activity', 'create', $params);
 
   // determine the send method
   require_once('CRM/Contact/BAO/Contact.php');
@@ -62,7 +76,7 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
   $org_name = CRM_Core_BAO_Setting::getItem(CDNTAX_SETTINGS, 'org_name');
 
   $email_subject_admin = CRM_Core_BAO_Setting::getItem(CDNTAX_SETTINGS, 'email_subject');
-  $email_subject = $email_subject_admin . " " . $receipt['receipt_no'];
+  $email_subject = $email_subject_admin . ' ' . $receipt['receipt_no'];
 
   $email_from = CRM_Core_BAO_Setting::getItem(CDNTAX_SETTINGS, 'email_from');
   $email_archive = CRM_Core_BAO_Setting::getItem(CDNTAX_SETTINGS, 'email_archive');
@@ -85,8 +99,8 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
 
   $result = civicrm_api('Setting', 'get', $params);  
   
-  if(isset($result["values"][1])) {
-    $gen_conf_send_by_email = $result["values"][1];
+  if(isset($result['values'][1])) {
+    $gen_conf_send_by_email = $result['values'][1];
   }
   else {
     $gen_conf_send_by_email =  0;
@@ -108,10 +122,10 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
   }
   else {
     $ret = CRM_Utils_Mail::send( $mailparams );
-    if ( $ret == TRUE ) {
+    if ( $ret == TRUE ) {      
       // we have successfully processed.  Log the receipt.
       cdntaxreceipts_log($receipt);
-    }
+    }    
   }
 
   if ( $receipt['issue_method'] == 'email' ) {
@@ -119,10 +133,10 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
     return array( $ret, 'email', NULL );
   }
   else { //xxxxxxxxxxxxxx
-    // if ( isset($collectedPdf) ) {
-    //   unlink($pdf_file); // file now is needed
-    //   $pdf_file = NULL;
-    // }
+    if ( isset($collectedPdf) ) {
+      //unlink($pdf_file); // file now is needed
+      $pdf_file = NULL;
+    }
     // if not unset, cron will clean up the PDF file later on
     cdntaxreceipts_log($receipt);
     return array( TRUE, 'print', $pdf_file );
@@ -170,7 +184,7 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
     $display_date = date('M j, Y', mktime(0,0,0,1,1,$receipt['receive_date'])) . ' - ' . date('M j, Y', mktime(0,0,0,12,31,$receipt['receive_date']));
   }
 
-  $line_1 = "This is your Official Receipt for income tax purposes.";
+  $line_1 = 'This is your Official Receipt for income tax purposes.';
 
   $config = CRM_Core_Config::singleton();
   $pdf_file = $config->customFileUploadDir . 'Receipt-' . $receipt['receipt_no'] . '.pdf';
@@ -194,25 +208,25 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
   $pdf->SetAutoPageBreak('', $margin=0);
 
   $pdf_variables = array(
-    "preview_mode" => $previewMode,
-    "mymargin_left" => $mymargin_left,
-    "mymargin_top" => $mymargin_top,
-    "is_duplicate" => $receipt['is_duplicate'],
-    "pdf_img_files_path" => $pdf_img_files_path,
-    "line_1" => $line_1,
-    "source_funds" => isset($receipt['source']) ? $receipt['source'] : '',
-    "amount" => $receipt['receipt_amount'],
-    "display_date" => $display_date,
-    "display_year" => $display_year,
-    "issued_on" => date('Y-m-d', $receipt['issued_on']),
-    "issue_type" => $receipt['issue_type'],
-    "receipt_number" => $receipt['receipt_no'],
-    "displayname" => $displayname,
-    "address_line_1" => $address_line_1,
-    "address_line_2" => $address_line_2,
-    "address_line_3" => $address_line_3,
-    "inkind_values" => isset($receipt['inkind_values']) ? $receipt['inkind_values'] : array(),
-    "receipt_contributions" => $receipt['contributions'],
+    'preview_mode' => $previewMode,
+    'mymargin_left' => $mymargin_left,
+    'mymargin_top' => $mymargin_top,
+    'is_duplicate' => $receipt['is_duplicate'],
+    'pdf_img_files_path' => $pdf_img_files_path,
+    'line_1' => $line_1,
+    'source_funds' => isset($receipt['source']) ? $receipt['source'] : '',
+    'amount' => $receipt['receipt_amount'],
+    'display_date' => $display_date,
+    'display_year' => $display_year,
+    'issued_on' => date('Y-m-d', $receipt['issued_on']),
+    'issue_type' => $receipt['issue_type'],
+    'receipt_number' => $receipt['receipt_no'],
+    'displayname' => $displayname,
+    'address_line_1' => $address_line_1,
+    'address_line_2' => $address_line_2,
+    'address_line_3' => $address_line_3,
+    'inkind_values' => isset($receipt['inkind_values']) ? $receipt['inkind_values'] : array(),
+    'receipt_contributions' => $receipt['contributions'],
   );
 
   $output_files = array($pdf);
@@ -229,14 +243,14 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
     }
     elseif (! $receipt['is_duplicate']) {
       // print original AND duplicate copy
-      $pdf_variables["mymargin_top"] = $mymargin_top;
-      $pdf_variables["is_duplicate"] = FALSE;
+      $pdf_variables['mymargin_top'] = $mymargin_top;
+      $pdf_variables['is_duplicate'] = FALSE;
       cdntaxreceipts_createPDF($f, $pdf_variables);
-      $pdf_variables["mymargin_top"] = $mymargin_top + 90;
-      $pdf_variables["is_duplicate"] = TRUE;
+      $pdf_variables['mymargin_top'] = $mymargin_top + 90;
+      $pdf_variables['is_duplicate'] = TRUE;
       cdntaxreceipts_createPDF($f, $pdf_variables);
-      $pdf_variables["mymargin_top"] = $mymargin_top + 90*2;
-      $pdf_variables["is_duplicate"] = TRUE;
+      $pdf_variables['mymargin_top'] = $mymargin_top + 90*2;
+      $pdf_variables['is_duplicate'] = TRUE;
       cdntaxreceipts_createPDF($f, $pdf_variables);
     }
   }
@@ -252,24 +266,24 @@ function cdntaxreceipts_createPDF(&$pdf, $pdf_variables) {
 
   // Extract variables  
 
-  $preview_mode = $pdf_variables["preview_mode"];
-  $mymargin_left = $pdf_variables["mymargin_left"];
-  $mymargin_top = $pdf_variables["mymargin_top"];
-  $is_duplicate = $pdf_variables["is_duplicate"];
-  $pdf_img_files_path = $pdf_variables["pdf_img_files_path"];
-  $line_1 = $pdf_variables["line_1"];
-  $source_funds = $pdf_variables["source_funds"];
-  $amount = $pdf_variables["amount"];
-  $display_date = $pdf_variables["display_date"];
-  $issued_on = $pdf_variables["issued_on"];
-  $receipt_number = $pdf_variables["receipt_number"];
-  $displayname = $pdf_variables["displayname"];
-  $address_line_1 = $pdf_variables["address_line_1"];
-  $address_line_2 = $pdf_variables["address_line_2"];
-  $address_line_3 = $pdf_variables["address_line_3"];
-  $inkind_values = $pdf_variables["inkind_values"];
-  $display_year = $pdf_variables["display_year"];
-  $issue_type = $pdf_variables["issue_type"];
+  $preview_mode = $pdf_variables['preview_mode'];
+  $mymargin_left = $pdf_variables['mymargin_left'];
+  $mymargin_top = $pdf_variables['mymargin_top'];
+  $is_duplicate = $pdf_variables['is_duplicate'];
+  $pdf_img_files_path = $pdf_variables['pdf_img_files_path'];
+  $line_1 = $pdf_variables['line_1'];
+  $source_funds = $pdf_variables['source_funds'];
+  $amount = $pdf_variables['amount'];
+  $display_date = $pdf_variables['display_date'];
+  $issued_on = $pdf_variables['issued_on'];
+  $receipt_number = $pdf_variables['receipt_number'];
+  $displayname = $pdf_variables['displayname'];
+  $address_line_1 = $pdf_variables['address_line_1'];
+  $address_line_2 = $pdf_variables['address_line_2'];
+  $address_line_3 = $pdf_variables['address_line_3'];
+  $inkind_values = $pdf_variables['inkind_values'];
+  $display_year = $pdf_variables['display_year'];
+  $issue_type = $pdf_variables['issue_type'];
   $receipt_contributions = $pdf_variables['receipt_contributions'];
 
   // Middle center section
@@ -320,51 +334,51 @@ function cdntaxreceipts_createPDF(&$pdf, $pdf_variables) {
   }
   $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 6);
   $pdf->SetFont('Helvetica', 'B', 8);
-  $pdf->Write(10, "Issue Date: " . $issued_on);
+  $pdf->Write(10, 'Issue Date: ' . $issued_on);
   $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 12);
-  $pdf->Write(10, "Received on: " . $display_date);
+  $pdf->Write(10, 'Received on: ' . $display_date);
   $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 18);
-  $pdf->Write(10, "Eligible Amount:  $" . number_format($amount, 2));
-  $amounts = "";
+  $pdf->Write(10, 'Eligible Amount:  $' . number_format($amount, 2));
+  $amounts = '';
 
-  foreach ($pdf_variables["receipt_contributions"] as $key => $value) {
-    $amounts .= $value["contribution_amount"] . " ";
+  foreach ($pdf_variables['receipt_contributions'] as $key => $value) {
+    $amounts .= $value['contribution_amount'] . ' ';
   }
 
   $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 24);
-  $pdf->Write(10, "Sum Amounts:  $" . $amounts);
+  $pdf->Write(10, 'Sum Amounts:  $' . $amounts);
 
 
   $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 34);
 
   if ($issue_type == 'annual') {
-    //$pdf->Write(10, ts("Thank you for giving in %1!", array( 1 => $display_year)));
-    $pdf->Write(10, "Contribution(s): ");
+    //$pdf->Write(10, ts('Thank you for giving in %1!', array( 1 => $display_year)));
+    $pdf->Write(10, 'Contribution(s): ');
     foreach ($receipt_contributions as $key => $value) {
       $test = $receipt_contributions[$key]['contribution_id'];
       $pdf->Write(10, $receipt_contributions[$key]['contribution_id'] . ' ');
     }
   }
   else if (strlen($source_funds) < 36 && strlen($source_funds) > 0) {
-    $pdf->Write(10, "Source: " . $source_funds);
+    $pdf->Write(10, 'Source: ' . $source_funds);
   }
   else if (strlen($source_funds) > 0) {
-    $source_funds_words = explode(" ", substr($source_funds, 0, 36));
+    $source_funds_words = explode(' ', substr($source_funds, 0, 36));
     $source_funds_lastbit = array_pop($source_funds_words);
-    $pdf->Write(10, "Source: " . implode(" ", $source_funds_words));
+    $pdf->Write(10, 'Source: ' . implode(' ', $source_funds_words));
     $source_funds_count = count($source_funds_words);
-    $source_funds_nextline = array_splice(explode(" ", $source_funds), $source_funds_count);
+    $source_funds_nextline = array_splice(explode(' ', $source_funds), $source_funds_count);
     $pdf->SetXY($mymargin_left + $x_detailscolumn + 16, $mymargin_top + $y_detailscolumnstart + 38);
-    $pdf->Write(10, implode(" ", $source_funds_nextline));
+    $pdf->Write(10, implode(' ', $source_funds_nextline));
   }
 
   // Left section
   $pdf->SetFont('Helvetica', 'B', 8);
   $pdf->SetY($mymargin_top + $y_detailscolumnstart + 6);
-  $pdf->Write(10, "Receipt No: " . $receipt_number);
+  $pdf->Write(10, 'Receipt No: ' . $receipt_number);
   $pdf->SetFont('Helvetica', 'B', 8);
   $pdf->SetY($mymargin_top + $y_detailscolumnstart + 10);
-  $pdf->Write(10, "Received from: ", '', 0, 'L', TRUE, 0, FALSE, FALSE, 0);
+  $pdf->Write(10, 'Received from: ', '', 0, 'L', TRUE, 0, FALSE, FALSE, 0);
   $pdf->SetFont('Helvetica', 'B', 10);
   $pdf->SetXY($mymargin_left+10, $mymargin_top + $y_detailscolumnstart + 20);
   $pdf->Write(10, strtoupper($displayname), '', 0, 'L', TRUE, 0, FALSE, FALSE, 0);
@@ -401,16 +415,16 @@ function cdntaxreceipts_createPDF(&$pdf, $pdf_variables) {
     $pdf->SetXY($mymargin_left + $x_detailscolumn, $mymargin_top + $y_detailscolumnstart + 24);
 
     if (strlen($appraiser) < 36) {
-      $pdf->Write(10, "Appraiser: " . $appraiser);
+      $pdf->Write(10, 'Appraiser: ' . $appraiser);
     }
     else {
-      $appraiser_words = explode(" ", substr($appraiser, 0, 36));
+      $appraiser_words = explode(' ', substr($appraiser, 0, 36));
       $appraiser_lastbit = array_pop($appraiser_words);
-      $pdf->Write(10, "Appraiser: " . implode(" ", $appraiser_words));
+      $pdf->Write(10, 'Appraiser: ' . implode(' ', $appraiser_words));
       $appraiser_count = count($appraiser_words);
-      $appraiser_nextline = array_splice(explode(" ", $appraiser), $appraiser_count);
+      $appraiser_nextline = array_splice(explode(' ', $appraiser), $appraiser_count);
       $pdf->SetXY($mymargin_left + $x_detailscolumn + 16, $mymargin_top + $y_detailscolumnstart + 28);
-      $pdf->Write(10, implode(" ", $appraiser_nextline));
+      $pdf->Write(10, implode(' ', $appraiser_nextline));
     }
 
   }
@@ -433,7 +447,7 @@ function cdntaxreceipts_createPDF(&$pdf, $pdf_variables) {
       $pdf->Write(10, 'Thank you!');
     }
     else {
-      $pdf->Write(10, ts("Thank you - %1!", array( 1 => $display_year)));
+      $pdf->Write(10, ts('Thank you - %1!', array( 1 => $display_year)));
     }
 
   // Bottom right section
@@ -451,7 +465,7 @@ function cdntaxreceipts_createPDF(&$pdf, $pdf_variables) {
     $pdf->Image(CRM_Core_BAO_Setting::getItem(CDNTAX_SETTINGS, 'receipt_signature', NULL, $pdf_img_files_path . 'authorized-signature.png'), $mymargin_left + 137, $mymargin_top + 67, '', 15);
     $pdf->Line($mymargin_left + 136, $mymargin_top + 79, $mymargin_left + 186, $mymargin_top + 79);
     $pdf->SetXY($mymargin_left + 148 - $sig_offset, $mymargin_top + 76);
-    $pdf->SetFont("Helvetica", "I", 7);
+    $pdf->SetFont('Helvetica', 'I', 7);
     $pdf->Write(10, $signature);
   }
 
@@ -585,7 +599,7 @@ function cdntaxreceipts_issueTaxReceipt( $contribution, &$collectedPdf = NULL, $
   $contributiontype =  _cdntaxreceipts_get_type_for_contribution($contribution);
 
   $inkind_values = array();
-  // check if this is an 'In-kind" contribution.
+  // check if this is an 'In-kind' contribution.
   if ( $contributiontype->name == 'In-kind' ) {
     // in this case get the custom field values:
     require_once 'CRM/Core/BAO/CustomField.php';
@@ -654,10 +668,10 @@ function cdntaxreceipts_eligibleForReceipt( $contributionId ) {
   // $contribution->id = $contributionId;
 
   // if ( ! $contribution->find( TRUE ) ) {
-  //   CRM_Core_Error::fatal( "CDNTaxReceipts: Could not retrieve details for this contribution" );
+  //   CRM_Core_Error::fatal( 'CDNTaxReceipts: Could not retrieve details for this contribution' );
   // }
 
-  // echo "<pre>";
+  // echo '<pre>';
   // print_r($contribution);
   // die;
 
@@ -670,7 +684,7 @@ function cdntaxreceipts_eligibleForReceipt( $contributionId ) {
   // // 3. check if the Contribution Status is Completed ( i.e. = 1 )
   // $contributionStatus = $contribution->contribution_status_id;
   // if ( !isset($contributionStatus) ) {
-  //   CRM_Core_Error::fatal( "CDNTaxReceipts: Could not find status of this Contribution." );
+  //   CRM_Core_Error::fatal( 'CDNTaxReceipts: Could not find status of this Contribution.' );
   // }
 
   // // invoke hook_cdntaxreceipts_eligible:
@@ -703,20 +717,21 @@ function cdntaxreceipts_eligibleForReceipt( $contributionId ) {
  * Detects if the receipt is a duplicate and reacts appropriately.
  */
 function cdntaxreceipts_issueAnnualTaxReceipt( $contactId, $year, &$collectedPdf = NULL, $previewMode = FALSE ) {
+  require_once 'CRM/Cdntaxreceipts/PseudoConstants.php';
+  $session = CRM_Core_Session::singleton();
+  $current_user = $session->get('userID');  
 
   $params = array(
     'version' => 3,
     'sequential' => 1,
-    'activity_name' => 'Tax_receipt',
-    'contact_id' => $contactId,
+    'activity_type_id' => ACTIVITY_TYPE_ID_TAX,
+    'contact_id' => $current_user,
     'custom_1' => $year,
     'custom_2' => 'grouped',
+    'status_id' => '2',
+    'target_contact_id' => $contactId,
   );
-  $result = civicrm_api('Activity', 'create', $params);
-  
-  print_r($result);
-  die;
-
+  $result = civicrm_api('Activity', 'create', $params);  
 
   // determine the send method
   list( $method, $email ) = cdntaxreceipts_sendMethodForContact($contactId);
@@ -802,10 +817,11 @@ function cdntaxreceipts_sendMethodForContact( $contactId ) {
 
 }
 
-function cdntaxreceipts_sendMethodForContribution( $contributionId ) {
+function cdntaxreceipts_sendMethodForContribution( $contributionId ) {  
 
   $query = "SELECT contact_id FROM civicrm_contribution
                   WHERE  id = $contributionId";
+
   $dao = CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
   if ($dao->fetch()) {
     $contact_id = $dao->contact_id;
@@ -846,7 +862,7 @@ function cdntaxreceipts_openCollectedPDF() {
 
 function cdntaxreceipts_sendCollectedPDF(&$pdf, $filename) {
 
-  if ( isset($pdf->_res["page"][1]) ) {
+  if ( isset($pdf->_res['page'][1]) ) {
     $pdf->Output($filename, 'D');
     CRM_Utils_System::civiExit();
   }
@@ -870,7 +886,7 @@ function _cdntaxreceipts_get_type_for_contribution($contribution) {
     $contributionType = new CRM_Financial_DAO_FinancialType();
     $contributionType->id = $contribution->financial_type_id;
     if ( ! $contributionType->find( TRUE ) ) {
-      CRM_Core_Error::fatal( "CDNTaxReceipts: Could not find corresponding contribution type." );
+      CRM_Core_Error::fatal( 'CDNTaxReceipts: Could not find corresponding contribution type.' );
     }
   }
   else { // Assume 4.2 or lower
@@ -878,7 +894,7 @@ function _cdntaxreceipts_get_type_for_contribution($contribution) {
     $contributionType = new CRM_Contribute_DAO_ContributionType();
     $contributionType->id = $contribution->contribution_type_id;
     if ( ! $contributionType->find( TRUE ) ) {
-      CRM_Core_Error::fatal( "CDNTaxReceipts: Could not find corresponding contribution type." );
+      CRM_Core_Error::fatal( 'CDNTaxReceipts: Could not find corresponding contribution type.' );
     }
   }
   return $contributionType;

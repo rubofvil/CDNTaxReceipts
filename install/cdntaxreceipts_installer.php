@@ -2,46 +2,19 @@
 
 class CdnTaxReceipts_Installer{
 	static function install(){
+
 		//Generate variable to know if we want sent a email when the contact have mail
 		$params = array();
-		$params[] = array(
-		  'version' => 3,
-		  'sequential' => 1,
-		  'send_mail_taxreceipt' => 1,
-		);
+		$params[] = array('version' => 3, 'sequential' => 1, 'send_mail_taxreceipt' => 1);
 		$result = self::executeAPI($params, 'Setting', 'create');
 		//Generate activity type
 		$params = array();
-		$params[] = array(
-		  'version' => 3,
-		  'sequential' => 1,
-		  'value' => 7,
-		  'label' => 'Tax receipt',
-		  'name' => 'tax_receipt',
-		  'weight' => 7,
-		  'is_active' => 1,
-		  'is_reseved' => 1
-		);
+		$params[] = array('version' => 3, 'sequential' => 1, 'value' => ACTIVITY_TYPE_ID_TAX, 'label' => 'Tax receipt', 'name' => 'tax_receipt', 'weight' => 7, 'is_active' => 1, 'is_reseved' => 1);
 		$result = self::executeAPI($params, 'ActivityType', 'create');
 		//Custom group to the activity type
 		$params = array();
-		$params[] = array(
-			'version' => 3,
-			'name' => 'Tax_receipt',
-			'title' => 'Tax receipt',
-			'extends' => 'Activity',
-			'extends_entity_column_value' => array('7'),
-			'style' => 'Inline',
-			'collapse_display' => '0',
-			'help_pre' => '',
-			'help_post' => '',
-			'weight' => '1',
-			'is_active' => '1',					
-			'is_multiple' => '0',
-			'collapse_adv_display' => '0',			
-		);
-		$custom_group_ids = self::executeAPI($params,'CustomGroup', 'create');
-
+		$params[] = array('version' => 3, 'name' => 'Tax_receipt', 'title' => 'Tax receipt', 'extends' => 'Activity', 'extends_entity_column_value' => array(ACTIVITY_TYPE_ID_TAX), 'style' => 'Inline', 'collapse_display' => '0', 'help_pre' => '', 'help_post' => '', 'weight' => '1', 'is_active' => '1', 'is_multiple' => '0', 'collapse_adv_display' => '0');
+		$custom_group_ids = self::executeAPI($params, 'CustomGroup', 'create');
 
 		$option_group		= array();
 		$option_group[0]	= array('version' => 3, 'name' => 'tax_year', 'label' => 'Tax year',		'description' => 'Tax year',	'is_reserved' => 1, 'is_active' => 1, );
