@@ -90,7 +90,7 @@ class CRM_Cdntaxreceipts_Task_IssueAnnualTaxReceipts extends CRM_Contact_Form_Ta
       ),
       array(
         'type' => 'next',
-        'name' => 'Issue Tax Receipts',
+        'name' => ts('Issue Tax Receipts'),
         'isDefault' => TRUE,
         'js' => array('onclick' => "return submitOnce(this,'{$this->_name}','" . ts('Processing') . "');"),
       ),

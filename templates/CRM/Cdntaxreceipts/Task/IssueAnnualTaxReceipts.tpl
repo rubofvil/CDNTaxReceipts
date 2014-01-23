@@ -6,10 +6,12 @@
 </div>
   <table>
     <thead>
+      {ts}
       <th width=30%>Select Tax Year</th>
       <th width=30%>Receipts Outstanding</th>
       <th width=20%>Email</th>
       <th>Print</th>
+      {/ts}
     </thead>
     {foreach from=$receiptYears item=year}
       {assign var="key" value="issue_$year"}

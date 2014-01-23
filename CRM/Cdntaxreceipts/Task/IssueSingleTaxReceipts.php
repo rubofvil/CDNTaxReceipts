@@ -79,7 +79,7 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
       ),
       array(
         'type' => 'next',
-        'name' => 'Issue Tax Receipts',
+        'name' => ts('Issue Tax Receipts'),
         'isDefault' => TRUE,
         'js' => array('onclick' => "return submitOnce(this,'{$this->_name}','" . ts('Processing') . "');"),
       ),
