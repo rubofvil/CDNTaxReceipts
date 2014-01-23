@@ -1,0 +1,440 @@
+# Copyright CiviCRM LLC (c) 2004-2013
+# This file is distributed under the same license as the CiviCRM package.
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
+# Translators:
+# ixiam <info@ixiam.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM_extensions\n"
+"POT-Creation-Date: 2014-01-22 14:39+0100\n"
+"PO-Revision-Date: 2014-01-23 11:11+0100\n"
+"Last-Translator: ruben <ruben.vilassar@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/civicrm_extensions/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: cdntaxreceipts.php CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "Issue Tax Receipts"
+msgstr "Emisión de recibos individuales"
+
+#: cdntaxreceipts.php CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+msgid "Issue Annual Tax Receipts"
+msgstr "Emisión de recibos anuales"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsIssued.php
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsNotIssued.php
+msgid "Contact Name"
+msgstr "Nombre del contacto"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsIssued.php
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsNotIssued.php
+msgid "Last Name, First Name"
+msgstr "Apellido, nombre"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsIssued.php
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsNotIssued.php
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "You do not have permission to access this page"
+msgstr "No tienes permisos para acceder a esta página"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsIssued.php
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsNotIssued.php
+msgid "View Contact Summary for this Contact"
+msgstr "Mostrar el extracto de este contacto"
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "Back"
+msgstr "Volver"
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "Processing"
+msgstr "Procesando"
+
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "Selection required"
+msgstr "Selección necesaria"
+
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "Run in preview mode?"
+msgstr "Ejecutar en formato de prueba?"
+
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "Maximum of %1 tax receipt(s) were sent. Please repeat to continue processing."
+msgstr "El máximo de %1 de recibos(s) han sido enviados. Por favor repite para continuar el proceso."
+
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "%1 tax receipt(s) have been previewed.  No receipts have been issued."
+msgstr "%1 de recibo(s) has sido previsualizados. Los recibos no han sido emitidos."
+
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "%1 tax receipt(s) were sent by email."
+msgstr "%1 de recibo(s) han sido enviados por email."
+
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "%1 tax receipt(s) need to be printed."
+msgstr "%1 de recibo(s) necesitan ser impresos."
+
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "%1 tax receipt(s) failed to process."
+msgstr "%1 de recibo(s) ha fallado en el proceso."
+
+#: cdntaxreceipts.functions.inc
+msgid "Thank you - %1!"
+msgstr "Gracias - %1!"
+
+#: cdntaxreceipts.functions.inc
+msgid "Authorized Signature"
+msgstr "Firma autorizada"
+
+#: cdntaxreceipts.php
+msgid "Tax Receipt"
+msgstr "Recibo"
+
+#: cdntaxreceipts.php
+msgid "CiviCRM CDN Tax Receipts"
+msgstr "CiviCRM CDN Recibos"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsIssued.php
+msgid "Issue Type"
+msgstr "Tipo de emisión"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsIssued.php
+msgid "Issue Method"
+msgstr "Método de emisión"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsIssued.php
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "Receipt No."
+msgstr "Núm. de recibo"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsIssued.php
+msgid "Receipt Amount"
+msgstr "Cantidad del recibo"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsNotIssued.php
+msgid "Financial Type"
+msgstr "Tipo financiero"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsNotIssued.php
+msgid "Use Advanced Eligibility (Hooks - Memory Intensive)"
+msgstr "Uso avanzado (Hooks - Uso de memoria intensiva)"
+
+#: CRM/Cdntaxreceipts/Form/Report/ReceiptsNotIssued.php
+msgid "View Details of this Contribution"
+msgstr "Ver los detalles de esta contribución"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Configure CDN Tax Receipts"
+msgstr "Configurar el CDN Recibos"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Submit"
+msgstr "Enviar"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Organization Name"
+msgstr "Nombre de la organización"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Address Line 1"
+msgstr "Dirección, linea 1"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Address Line 2"
+msgstr "Dirección, linea 2"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Telephone"
+msgstr "Teléfono"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Fax"
+msgstr "Fax"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Email"
+msgstr "Email"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Website"
+msgstr "Website"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Charitable Registration Number"
+msgstr "Número de registro de la caridad"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Receipt Prefix"
+msgstr "Prefijo del recibo"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Authorized Signature Text"
+msgstr "Firma autorzadora"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Organization Logo"
+msgstr "Logo de la organización"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "File size should be less than %1 MBytes (%2 bytes)"
+msgstr "El tamaño del fichero deberia ser menor a %1 MBytes (%2 bytes)"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Signature Image"
+msgstr "Imagén de la firma"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Watermark Image"
+msgstr "Filigrana de la imagén"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "PDF Template"
+msgstr "PDF Template"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Setup in-kind receipts?"
+msgstr "Configuración del tipo de recibos?"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Send receipts by email?"
+msgstr "Enviar recibos por email?"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Email Subject"
+msgstr "Asunto del correo"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Email From"
+msgstr "Email para"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Archive Email"
+msgstr "Archivar email"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Email Message"
+msgstr "Mensaje del Email"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Your Tax Receipt"
+msgstr "Tu recibo"
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Attached please find your official tax receipt for income tax purposes."
+msgstr "Adjunto encontrará el recibo oficial de impuestos para propósitos de impuestos."
+
+#: CRM/Cdntaxreceipts/Form/Settings.php
+msgid "Your settings have been saved."
+msgstr "Su configuración ha sido guardada."
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "Re-Issue Tax Receipt"
+msgstr "Volver a emitir el recibo"
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+msgid "Issue Tax Receipt"
+msgstr "Emtir el recibo"
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+msgid "This contribution is not tax deductible and/or not completed. No receipt has been issued."
+msgstr "Esta contribución no tiene tasas deducibles y/o no ha sido completada. No han sido emitidos los recibos."
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+msgid "Tax Receipt has been emailed to the contributor."
+msgstr "Los recibos has sido enviados por email al contribuyente."
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+msgid "Tax Receipt has been generated for printing."
+msgstr "El recibo ha sido generado para imprimir"
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+msgid "Encountered an error. Tax receipt has not been issued."
+msgstr "Se ha encontrado un error. El recibo de las tasas no ha sido enviado."
+
+#: CRM/Cdntaxreceipts/Form/ViewTaxReceipt.php
+msgid "File has expired. Please retrieve receipt from the email archive."
+msgstr "El fichero ha expirado. Por favor recupere el recibo del email."
+
+#: CRM/Cdntaxreceipts/Search/ContactContributionTax.php
+msgid "Contact Id"
+msgstr "Id del contacto"
+
+#: CRM/Cdntaxreceipts/Search/ContactContributionTax.php
+msgid "Name"
+msgstr "Nombre"
+
+#: CRM/Cdntaxreceipts/Search/ContactContributionTax.php
+msgid "- select -"
+msgstr "-selecciona-"
+
+#: CRM/Cdntaxreceipts/Search/ContactContributionTax.php
+msgid "Year"
+msgstr "Año"
+
+#: CRM/Cdntaxreceipts/Search/ContactContributionTax.php
+msgid "Search"
+msgstr "Búsqueda"
+
+#: CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+msgid "%1"
+msgstr "%1"
+
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "Issue tax receipts for the %1 unreceipted contributions only."
+msgstr "La emisión de recibos solo para %1  de las contribuciones que no tienen recibos."
+
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+msgid "Issue tax receipts for all %1 contributions. Previously-receipted contributions will be marked 'duplicate'."
+msgstr "Recibos emitidos para % 1 de todas las aportaciones. Anteriormente contribuciones pagadas-se marcarán «duplicado»."
+
+#: cdntaxreceipts.functions.inc
+msgid "Thank you for giving in %1!"
+msgstr "Gracias por dar en %1!"
+
+#: CRM/Cdntaxreceipts/Upgrader/Base.php
+msgid "Upgrade %1 to revision %2"
+msgstr "Actualizada %1 para revisión %2"
+
+#: templates/CRM/Cdntaxreceipts/Form/ContributeSearchTax.tpl
+#: templates/CRM/Cdntaxreceipts/Search/ContactContributionTax.tpl
+msgid "Edit Search Criteria"
+msgstr "Editar el criterio de la búsqueda"
+
+#: templates/CRM/Cdntaxreceipts/Form/ContributeSearchTax.tpl
+msgid "Contributor Tag(s)"
+msgstr "Tag(s) de contribuyente"
+
+#: templates/CRM/Cdntaxreceipts/Form/ContributeSearchTax.tpl
+msgid "Contributor Group(s)"
+msgstr "Grupo de contribuyente(s)"
+
+#: templates/CRM/Cdntaxreceipts/Form/ContributeSearchTax.tpl
+msgid "Printed tax receipt"
+msgstr "Recibo de las tasas impreso"
+
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "Issued By"
+msgstr "Emtido por"
+
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "Issue Date"
+msgstr "Fecha de la emisión"
+
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "Method"
+msgstr "Método"
+
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "Type"
+msgstr "Tipo"
+
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "IP"
+msgstr "IP"
+
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "Amount"
+msgstr "Cantidad"
+
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "Contribution(s)"
+msgstr "Contribucione(s)"
+
+#: templates/CRM/Cdntaxreceipts/Form/ViewTaxReceipt.tpl
+msgid "A tax receipt has not been issued for this contribution."
+msgstr "Los recibos de las tasas no han sido emitidos para esta contribución."
+
+#: templates/CRM/Cdntaxreceipts/Search/ContactContributionTax.tpl
+msgid "Search results listings."
+msgstr "Busca el resultado de la lista."
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
+msgid ""
+"<th>Tax Receipt Status</th>\n"
+"      <th>Total</th>\n"
+"      <th>Email</th>\n"
+"      <th>Print</th>"
+msgstr ""
+"<th>Estado del recibo de las tasas</th>\n"
+"<th>Total</th>\n"
+"<th>Email</th>\n"
+"<th>Impresos</th>"
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
+msgid "Not yet receipted"
+msgstr "Todavía no se ha hecho el recibo"
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
+msgid "Already receipted"
+msgstr "Recibo preparado"
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
+msgid ""
+"<p>Clicking 'Issue Tax Receipts' will issue the selected tax receipts.\n"
+"    <strong>This action cannot be undone.</strong> Tax receipts will be logged for auditing purposes,\n"
+"    and a copy of each receipt will be submitted to the tax receipt archive.\n"
+"  <ul>\n"
+"  <li>Email receipts will be emailed directly to the contributor.</li>\n"
+"  <li>Print receipts will be compiled into a file for download.  Please print and mail any receipts in this file.</li>\n"
+"  </ul></p>"
+msgstr ""
+"<p>Clickando \"Genera recibo individual\" emitiras los recibos seleccionados.\n"
+"<strong>Está acción no se puede deshacer.</strong> Las tasas de los recibos han sido registradas para propósitos de auditoria,\n"
+" y una copia de cada recibo ha sido enviada para archivar el recibo.\n"
+"<ul>\n"
+"<li>Los emails de los recibos se enviaran directamente al contribuyente.</li>\n"
+"<li>El impreso de los recibos sera unido en un fichero para descargar. Por favor imprime y envia por email los recibos de este mail.</li>\n"
+"</ul></p>"
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.tpl
+msgid " contacts. The summary below includes these contacts only."
+msgstr "contactos. El resumen de mas abajo incluye solo estos contactos."
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.tpl
+msgid ""
+"<p>Clicking 'Issue Tax Receipts' will issue annual tax receipts for the selected year. Annual tax receipts are a sum\n"
+"    total of all eligible contributions, received from the donor during the selected year, that have not been receipted individually.</p>\n"
+"  <p>Only one annual tax receipt can be issued per donor, per year. If the donor has eligible contributions that\n"
+"  were recorded after the annual receipt was issued, those contributions must be receipted one at a time. Use the Find\n"
+"  Contributions action to issue those receipts.</p>\n"
+"  <p><strong>This action cannot be undone.</strong> Tax receipts will be logged for auditing purposes,\n"
+"    and a copy of each receipt will be submitted to the tax receipt archive.\n"
+"  <ul>\n"
+"  <li>Email receipts will be emailed directly to the contributor.</li>\n"
+"  <li>Print receipts will be compiled into a file for download.  Please print and mail any receipts in this file.</li>\n"
+"  </ul></p>"
+msgstr ""
+"<p> Clickando 'Tasas de recibos anuales' se tramitaran los recibos de las tasas anuales . Las tasas anuales son la suma \n "
+" total de las contribuciones seleccionables, recibidas por el contribuyente durante el año seleccionado, de las cuales no se ha generado recibo individual"
+" <p> Solo una tasa anual puede ser tramitada por contribuyente y por año. Si el donante ha selecciona contribuciones que has sido tramitadas como recibos anuales, solo se deberia generar el recibo una sola vez. "
+"<p><strong> Esta acción no se puede deshacer.</strong> Las tasas de los recibos sera registradas para procesos de auditoria, \n"
+" y una copia de cada recibo debe ser enviada y archivadas. \n"
+"  <ul>\n"
+"  <li> Existe la opción para que los contactos que contengan email se les envie directamente al contribuyente el recibo.</li>\n"
+"  <li>Los recibos que se van a imprimir sera agrupados en un fichero para descargarse. Por favor imprime los recibos de este fichero.</li>\n"
+" </ul></p>"
+
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.tpl
+#: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
+msgid " (Generates receipts marked 'preview', but does not issue the receipts.  No logging or emails sent.)"
+msgstr " (Generar el recibo marcado con 'previo', pero los recibos no serán enviados. Los recibos no han sido tramitados o los emails no han sido enviados.) "
+
