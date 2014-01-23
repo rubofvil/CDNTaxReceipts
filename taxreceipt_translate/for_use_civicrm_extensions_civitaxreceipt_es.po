@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM_extensions\n"
 "POT-Creation-Date: 2014-01-22 14:39+0100\n"
-"PO-Revision-Date: 2014-01-23 11:11+0100\n"
+"PO-Revision-Date: 2014-01-23 14:19+0100\n"
 "Last-Translator: ruben <ruben.vilassar@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/civicrm_extensions/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -17,9 +17,10 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: cdntaxreceipts.php CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
+#: cdntaxreceipts.php CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
+#: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
 msgid "Issue Tax Receipts"
-msgstr "Emisión de recibos individuales"
+msgstr "Emisión de recibos"
 
 #: cdntaxreceipts.php CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.php
 msgid "Issue Annual Tax Receipts"
@@ -299,7 +300,7 @@ msgstr "%1"
 
 #: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
 msgid "Issue tax receipts for the %1 unreceipted contributions only."
-msgstr "La emisión de recibos solo para %1  de las contribuciones que no tienen recibos."
+msgstr "La emisión de recibos solo para %1 de las contribuciones que no tienen recibos."
 
 #: CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.php
 msgid "Issue tax receipts for all %1 contributions. Previously-receipted contributions will be marked 'duplicate'."
@@ -422,19 +423,43 @@ msgid ""
 "  <li>Print receipts will be compiled into a file for download.  Please print and mail any receipts in this file.</li>\n"
 "  </ul></p>"
 msgstr ""
-"<p> Clickando 'Tasas de recibos anuales' se tramitaran los recibos de las tasas anuales . Las tasas anuales son la suma \n "
-" total de las contribuciones seleccionables, recibidas por el contribuyente durante el año seleccionado, de las cuales no se ha generado recibo individual"
-" <p> Solo una tasa anual puede ser tramitada por contribuyente y por año. Si el donante ha selecciona contribuciones que has sido tramitadas como recibos anuales, solo se deberia generar el recibo una sola vez. "
-"<p><strong> Esta acción no se puede deshacer.</strong> Las tasas de los recibos sera registradas para procesos de auditoria, \n"
+"<p> Clickando 'Tasas de recibos anuales' se tramitaran los recibos de las tasas anuales . Las tasas anuales son la suma \n"
+"  total de las contribuciones seleccionables, recibidas por el contribuyente durante el año seleccionado, de las cuales no se ha generado recibo individual <p> Solo una tasa anual puede ser tramitada por contribuyente y por año. Si el donante ha selecciona contribuciones que has sido tramitadas como recibos anuales, solo se deberia generar el recibo una sola vez. <p><strong> Esta acción no se puede deshacer.</strong> Las tasas de los recibos sera registradas para procesos de auditoria, \n"
 " y una copia de cada recibo debe ser enviada y archivadas. \n"
 "  <ul>\n"
 "  <li> Existe la opción para que los contactos que contengan email se les envie directamente al contribuyente el recibo.</li>\n"
 "  <li>Los recibos que se van a imprimir sera agrupados en un fichero para descargarse. Por favor imprime los recibos de este fichero.</li>\n"
 " </ul></p>"
 
-
 #: templates/CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.tpl
 #: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
 msgid " (Generates receipts marked 'preview', but does not issue the receipts.  No logging or emails sent.)"
 msgstr " (Generar el recibo marcado con 'previo', pero los recibos no serán enviados. Los recibos no han sido tramitados o los emails no han sido enviados.) "
 
+#: templates/CRM/Cdntaxreceipts/Task/IssueAnnualTaxReceipts.tpl
+msgid ""
+"\n"
+"      <th width=30%>Select Tax Year</th>\n"
+"      <th width=30%>Receipts Outstanding</th>\n"
+"      <th width=20%>Email</th>\n"
+"      <th>Print</th>\n"
+"      "
+msgstr ""
+"\n"
+"      <th width=30%>Seleccionar el año de los recibos de las tasas</th>\n"
+"      <th width=30%>Recibos excepcional</th>\n"
+"      <th width=20%>Email</th>\n"
+"      <th>Impresión</th>\n"
+"      "
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
+msgid "You have selected "
+msgstr "Has seleccionado "
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
+msgid "contributions. Of these, "
+msgstr "contribuciones. De éstos "
+
+#: templates/CRM/Cdntaxreceipts/Task/IssueSingleTaxReceipts.tpl
+msgid "are eligible to receive tax receipts."
+msgstr "son elegibles para el recibo de las tasas."

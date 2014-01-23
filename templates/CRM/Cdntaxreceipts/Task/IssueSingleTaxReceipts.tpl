@@ -2,7 +2,7 @@
 <div class="crm-block crm-form-block crm-contact-task-delete-form-block">
 <div class="messages status no-popup">
   <div class="icon inform-icon"></div>
-  {ts}You have selected <strong>{$totalSelectedContributions}</strong> contributions. Of these, <strong>{$receiptTotal}</strong> are eligible to receive tax receipts.{/ts}
+  {ts}You have selected {/ts}<strong>{$totalSelectedContributions}</strong> {ts}contributions. Of these, {/ts}<strong>{$receiptTotal}</strong> {ts}are eligible to receive tax receipts.{/ts}
 </div>
   <table>
     <thead>
