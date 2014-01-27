@@ -5,12 +5,12 @@
   <description>Provides PDF tax receipts for Canadian charities, including single or annual tax receipts, with distribution by email or print.</description>
   <license>AGPL</license>
   <maintainer>
-    <author>Jake Martin White</author>
-    <email>jake@peaceworks.ca</email>
+    <author>Rubén Pineda</author>
+    <email>r.pineda@ixiam.com</email>
   </maintainer>
   <releaseDate>2013-08-25</releaseDate>
-  <version>0.9.beta1</version>
-  <develStage>beta</develStage>
+  <version>V.1/version>
+  <develStage>dev</develStage>
   <compatibility>
     <ver>4.3</ver>
   </compatibility>
