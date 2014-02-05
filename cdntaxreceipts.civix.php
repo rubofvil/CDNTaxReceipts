@@ -151,7 +151,7 @@ function _cdntaxreceipts_civix_civicrm_managed(&$entities) {
     $es = include $file;
     foreach ($es as $e) {
       if (empty($e['module'])) {
-        $e['module'] = 'org.civicrm.cdntaxreceipts';
+        $e['module'] = 'org.civicrm.ixiam.cdntaxreceipts';
       }
       $entities[] = $e;
     }

@@ -12,7 +12,7 @@ return array (
     array (
       'version' => 3,
       'label' => 'Tax Receipts - Receipts Issued',
-      'description' => 'Tax Receipts - ReceiptsIssued (org.civicrm.cdntaxreceipts)',
+      'description' => 'Tax Receipts - ReceiptsIssued (org.civicrm.ixiam.cdntaxreceipts)',
       'class_name' => 'CRM_Cdntaxreceipts_Form_Report_ReceiptsIssued',
       'report_url' => 'cdntaxreceipts/receiptsissued',
       'component' => 'CiviContribute',

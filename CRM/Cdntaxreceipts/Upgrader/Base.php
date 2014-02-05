@@ -39,7 +39,7 @@ class CRM_Cdntaxreceipts_Upgrader_Base {
     if (! self::$instance) {
       // FIXME auto-generate
       self::$instance = new CRM_Cdntaxreceipts_Upgrader(
-        'org.civicrm.cdntaxreceipts',
+        'org.civicrm.ixiam.cdntaxreceipts',
         realpath(__DIR__ .'/../../../')
       );
     }

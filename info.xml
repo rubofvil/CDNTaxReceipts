@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<extension key="org.civicrm.cdntaxreceipts" type="module">
+<extension key="org.civicrm.ixiam.cdntaxreceipts" type="module">
   <file>cdntaxreceipts</file>
   <name>CDN Tax Receipts</name>
   <description>Provides PDF tax receipts for Canadian charities, including single or annual tax receipts, with distribution by email or print.</description>
