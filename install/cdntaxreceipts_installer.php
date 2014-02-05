@@ -1,7 +1,9 @@
 <?php
 
+
 class CdnTaxReceipts_Installer{
 	static function install(){
+
 
 		//Generate variable to know if we want sent a email when the contact have mail
 		$params = array();
@@ -37,6 +39,10 @@ class CdnTaxReceipts_Installer{
 		$custom_field[]	= array('version' => 3, 'weight' => '1', 'custom_group_id' => $custom_group_ids[0], 'label' => 'Year of tax', 'data_type' => 'String', 'html_type' => 'Select', 'is_active' => '1', 'text_length' => '255', 'option_group_id' => $option_group_ids[0], 'is_searchable' => '1', 'is_required' => '0' );
 		$custom_field[]	= array('version' => 3, 'weight' => '1', 'custom_group_id' => $custom_group_ids[0], 'label' => 'Type of Tax', 'data_type' => 'String', 'html_type' => 'Select', 'is_active' => '1', 'text_length' => '255', 'option_group_id' => $option_group_ids[1], 'is_searchable' => '1', 'is_required' => '0' );
 		$custom_field_ids = self::executeAPI($custom_field, 'CustomField', 'Create');
+
+		//Create the folder for the receipts
+		$config = CRM_Core_Config::singleton();		
+		self::createFolder($config->customFileUploadDir . FOLDER_TAX_RECEIPT);
 	}		
 
 
@@ -61,5 +67,19 @@ class CdnTaxReceipts_Installer{
 
 		return $results;
 	}
-
+	public static function createFolder($name){
+		if(!is_dir($name)){
+			mkdir($name, 0777);
+			chmod($name, 0777);
+			if(!is_dir($name)){
+				return FALSE;
+			}
+			else {
+				return TRUE;
+			}
+		}
+		else{
+			return TRUE;
+		}
+	}	
 }

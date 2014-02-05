@@ -3,6 +3,7 @@
 require_once 'cdntaxreceipts.civix.php';
 require_once 'cdntaxreceipts.functions.inc';
 require_once 'cdntaxreceipts.db.inc';
+require_once 'CRM/Cdntaxreceipts/PseudoConstants.php';
 
 function cdntaxreceipts_civicrm_buildForm( $formName, &$form ) {
 
@@ -153,8 +154,7 @@ function cdntaxreceipts_civicrm_xmlMenu(&$files) {
 function cdntaxreceipts_civicrm_install() {
   // copy tables civicrm_cdntaxreceipts_log and civicrm_cdntaxreceipts_log_contributions IF they already exist
   // Issue: #1
-  require_once 'install/cdntaxreceipts_installer.php';
-  require_once 'CRM/Cdntaxreceipts/PseudoConstants.php';
+  require_once 'install/cdntaxreceipts_installer.php';  
   CdnTaxReceipts_Installer::install();
   return _cdntaxreceipts_civix_civicrm_install();
 }
@@ -240,6 +240,12 @@ function cdntaxreceipts_civicrm_managed(&$entities) {
   return _cdntaxreceipts_civix_civicrm_managed($entities);
 }
 
-
-
-
+/**
+* Implemanetation of hook_civicrm_tokens
+*/
+function cdntaxreceipts_civicrm_tokens( &$tokens ){  
+  $tokens['receipt'] = array(
+      'receipt.id' => ts("Id Receipt"),
+      'receipt.type' => ts("Receipt type")      
+  );  
+}
