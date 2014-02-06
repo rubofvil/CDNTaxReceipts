@@ -240,11 +240,6 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
     $tokens ,
     'CRM_Contact_Form_Task_PDFLetterCommon'  
   );    
-  // CRM_Core_Error::debug($contribution);
-  // CRM_Core_Error::debug($receipt);
-  // CRM_Core_Error::debug($contribution[$receipt['contributions']['0']['contribution_id']]);
-  // die;
-
 
   $page = CRM_Utils_Token::replaceContactTokens($page, $contact[$receipt['contact_id']], TRUE, $tokens);
   $page = CRM_Utils_Token::replaceContributionTokens($page, $contribution[$receipt['contributions']['0']['contribution_id']], TRUE, $tokens);    
@@ -255,71 +250,9 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
   $config = CRM_Core_Config::singleton();  
 
   file_put_contents($config->customFileUploadDir . "/" . 'Receipt-' . $receipt['receipt_no'] . date("H:i:s") . '.pdf', $pdf);
-  flush();
-  clearstatcache();
 
 
-  // $pdf_variables = array(
-  //   'preview_mode' => $previewMode,
-  //   'mymargin_left' => $mymargin_left,
-  //   'mymargin_top' => $mymargin_top,
-  //   'is_duplicate' => $receipt['is_duplicate'],
-  //   'pdf_img_files_path' => $pdf_img_files_path,
-  //   'line_1' => $line_1,
-  //   'source_funds' => isset($receipt['source']) ? $receipt['source'] : '',
-  //   'amount' => $receipt['receipt_amount'],
-  //   'display_date' => $display_date,
-  //   'display_year' => $display_year,
-  //   'issued_on' => date('Y-m-d', $receipt['issued_on']),
-  //   'issue_type' => $receipt['issue_type'],
-  //   'receipt_number' => $receipt['receipt_no'],
-  //   'displayname' => $displayname,
-  //   'address_line_1' => $address_line_1,
-  //   'address_line_2' => $address_line_2,
-  //   'address_line_3' => $address_line_3,
-  //   'inkind_values' => isset($receipt['inkind_values']) ? $receipt['inkind_values'] : array(),
-  //   'receipt_contributions' => $receipt['contributions'],
-  // );
-
-  // $output_files = array($pdf);
-  // if ( isset($collectedPdf) && ( $receipt['issue_method'] == 'print' || $previewMode ) ) {
-  //   $output_files[] = $collectedPdf;
-  // }
-
-  // foreach ( $output_files as $f ) {    
-  //   $pdf->AddPage();
-    
-
-
-  //   $pdf->SetFont('Arial','',20);
-  //   $pdf->WriteHTML($template->msg_html);            
-  //   $pdf->SetFont('');
-
-
-  //   if ($receipt['is_duplicate']) {
-  //     // print duplicate copy
-  //     //cdntaxreceipts_createPDF($f, $pdf_variables);
-  //   }
-  //   elseif (! $receipt['is_duplicate']) {
-  //     // print original AND duplicate copy
-  //     $pdf_variables['mymargin_top'] = $mymargin_top;
-  //     $pdf_variables['is_duplicate'] = FALSE;
-  //     cdntaxreceipts_createPDF($f, $pdf_variables);
-  //     $pdf_variables['mymargin_top'] = $mymargin_top + 90;
-  //     $pdf_variables['is_duplicate'] = TRUE;
-  //     cdntaxreceipts_createPDF($f, $pdf_variables);
-  //     $pdf_variables['mymargin_top'] = $mymargin_top + 90*2;
-  //     $pdf_variables['is_duplicate'] = TRUE;
-  //     //cdntaxreceipts_createPDF($f, $pdf_variables);
-  //   }
-  // }
-
-  // // close and output the single receipt, but not the collected receipts...
-  // $pdf->Close();
-  // $pdf->Output($pdf_file, 'F');
-
-  // CRM_Core_Error::debug($pdf_file);
-  // CRM_Core_Error::debug($user_friendly);
+  // print_r($receipt);
   // die;
 
   return array(NULL, NULL);
@@ -816,6 +749,8 @@ function replaceReceiptTokens($str, &$receipt, $html = FALSE, $knownTokens = NUL
 
     $str = CRM_Utils_Token::token_replace('receipt', 'receipt_no', $receipt['receipt_no'], $str);
     $str = CRM_Utils_Token::token_replace('receipt', 'issue_type', $receipt['issue_type'], $str);
+    $str = CRM_Utils_Token::token_replace('receipt', 'receipt_amount', $receipt['receipt_amount'], $str);
+    $str = CRM_Utils_Token::token_replace('receipt', 'receipt_date', $receipt['receipt_date'], $str);
     return $str;
 }
 

@@ -13,18 +13,15 @@ class CRM_Cdntaxreceipts_Form_Settings extends CRM_Core_Form {
 
   function buildQuickForm() {
 
-    CRM_Utils_System::setTitle(ts('Configure CDN Tax Receipts'));
-
-    $this->processOrgOptions('build');
-    $this->processReceiptOptions('build');
+    CRM_Utils_System::setTitle(ts('Configure CDN Tax Receipts'));    
     $this->processSystemOptions('build');
     $this->processEmailOptions('build');
+    $this->processTemplateOptions('build');
 
-    $arr1 = $this->processOrgOptions('defaults');
-    $arr2 = $this->processReceiptOptions('defaults');
+    $arr1 = $this->processTemplateOptions('defaults');
     $arr3 = $this->processSystemOptions('defaults');
     $arr4 = $this->processEmailOptions('defaults');
-    $defaults = array_merge($arr1, $arr2, $arr3, $arr4);
+    $defaults = array_merge($arr3, $arr4, $arr1);
     $this->setDefaults($defaults);
 
     $this->addButtons(array(
@@ -36,116 +33,7 @@ class CRM_Cdntaxreceipts_Form_Settings extends CRM_Core_Form {
     ));
 
     parent::buildQuickForm();
-  }
-
-  function processOrgOptions($mode) {
-    if ( $mode == 'build' ) {
-      $this->add('text', 'org_name', ts('Organization Name'));
-      $this->add('text', 'org_address_line1', ts('Address Line 1'));
-      $this->add('text', 'org_address_line2', ts('Address Line 2'));
-      $this->add('text', 'org_tel', ts('Telephone'));
-      $this->add('text', 'org_fax', ts('Fax'));
-      $this->add('text', 'org_email', ts('Email'));
-      $this->add('text', 'org_web', ts('Website'));
-      $this->add('text', 'org_charitable_no', ts('Charitable Registration Number'));
-
-      $this->addRule('org_name', 'Enter Organization Name', 'required');
-      $this->addRule('org_address_line1', 'Enter Address Line 1', 'required');
-      $this->addRule('org_address_line2', 'Enter Address Line 2', 'required');
-      $this->addRule('org_tel', 'Enter Telephone', 'required');
-      $this->addRule('org_email', 'Enter Email', 'required');
-      $this->addRule('org_web', 'Enter Website', 'required');
-      $this->addRule('org_charitable_no', 'Enter Charitable Number', 'required');
-    }
-    else if ( $mode == 'defaults' ) {
-      $defaults = array(
-        'org_name' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'org_name'),
-        'org_address_line1' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'org_address_line1'),
-        'org_address_line2' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'org_address_line2'),
-        'org_tel' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'org_tel'),
-        'org_fax' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'org_fax'),
-        'org_email' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'org_email'),
-        'org_web' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'org_web'),
-        'org_charitable_no' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'org_charitable_no'),
-      );
-      return $defaults;
-    }
-    else if ( $mode == 'post' ) {
-      $values = $this->exportValues();
-      CRM_Core_BAO_Setting::setItem($values['org_name'], self::SETTINGS, 'org_name');
-      CRM_Core_BAO_Setting::setItem($values['org_address_line1'], self::SETTINGS, 'org_address_line1');
-      CRM_Core_BAO_Setting::setItem($values['org_address_line2'], self::SETTINGS, 'org_address_line2');
-      CRM_Core_BAO_Setting::setItem($values['org_tel'], self::SETTINGS, 'org_tel');
-      CRM_Core_BAO_Setting::setItem($values['org_fax'], self::SETTINGS, 'org_fax');
-      CRM_Core_BAO_Setting::setItem($values['org_email'], self::SETTINGS, 'org_email');
-      CRM_Core_BAO_Setting::setItem($values['org_web'], self::SETTINGS, 'org_web');
-      CRM_Core_BAO_Setting::setItem($values['org_charitable_no'], self::SETTINGS, 'org_charitable_no');
-    }
-
-  }
-
-  function processReceiptOptions($mode) {
-    if ( $mode == 'build' ) {
-      $this->add('text', 'receipt_prefix', ts('Receipt Prefix'));
-      $this->add('text', 'receipt_authorized_signature_text', ts('Authorized Signature Text'));
-
-      $config = CRM_Core_Config::singleton( );
-      if ($config->maxImportFileSize >= 8388608 ) {
-        $uploadFileSize = 8388608;
-      } else {
-        $uploadFileSize = $config->maxImportFileSize;
-      }
-      $uploadSize = round(($uploadFileSize / (1024*1024)), 2);
-
-      $this->assign('uploadSize', $uploadSize );
-      $this->setMaxFileSize( $uploadFileSize );
-
-      $this->addElement('file', 'receipt_logo', ts('Organization Logo'), 'size=30 maxlength=60');
-      $this->addUploadElement('receipt_logo');
-      $this->addRule( 'receipt_logo', ts('File size should be less than %1 MBytes (%2 bytes)', array(1 => $uploadSize, 2 => $uploadFileSize)), 'maxfilesize', $uploadFileSize );
-
-      $this->addElement('file', 'receipt_signature', ts('Signature Image'), 'size=30 maxlength=60');
-      $this->addUploadElement('receipt_signature');
-      $this->addRule( 'receipt_signature', ts('File size should be less than %1 MBytes (%2 bytes)', array(1 => $uploadSize, 2 => $uploadFileSize)), 'maxfilesize', $uploadFileSize );
-
-      $this->addElement('file', 'receipt_watermark', ts('Watermark Image'), 'size=30 maxlength=60');
-      $this->addUploadElement('receipt_watermark');
-      $this->addRule( 'receipt_watermark', ts('File size should be less than %1 MBytes (%2 bytes)', array(1 => $uploadSize, 2 => $uploadFileSize)), 'maxfilesize', $uploadFileSize );
-
-      $this->addElement('file', 'receipt_pdftemplate', ts('PDF Template'), 'size=30 maxlength=60');
-      $this->addUploadElement('receipt_pdftemplate');
-      $this->addRule( 'receipt_pdftemplate', ts('File size should be less than %1 MBytes (%2 bytes)', array(1 => $uploadSize, 2 => $uploadFileSize)), 'maxfilesize', $uploadFileSize );
-    }
-    else if ( $mode == 'defaults' ) {
-      $defaults = array(
-        'receipt_prefix' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'receipt_prefix'),
-        'receipt_authorized_signature_text' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'receipt_authorized_signature_text'),
-      );
-      return $defaults;
-    }
-    else if ( $mode == 'post' ) {
-      $values = $this->exportValues();
-      CRM_Core_BAO_Setting::setItem($values['receipt_prefix'], self::SETTINGS, 'receipt_prefix');
-      CRM_Core_BAO_Setting::setItem($values['receipt_authorized_signature_text'], self::SETTINGS, 'receipt_authorized_signature_text');
-
-      $receipt_logo = $this->getSubmitValue('receipt_logo');
-      $receipt_signature = $this->getSubmitValue('receipt_signature');
-      $receipt_watermark = $this->getSubmitValue('receipt_watermark');
-      $receipt_pdftemplate = $this->getSubmitValue('receipt_pdftemplate');
-
-      $config = CRM_Core_Config::singleton( );
-      foreach ( array('receipt_logo', 'receipt_signature', 'receipt_watermark', 'receipt_pdftemplate') as $key ) {
-        $upload_file = $this->getSubmitValue($key);
-        if (is_array($upload_file)) {
-          if ( $upload_file['error'] == 0 ) {
-            $filename = $config->customFileUploadDir . CRM_Utils_File::makeFileName($upload_file['name']);
-            move_uploaded_file($upload_file['tmp_name'], $filename);
-            CRM_Core_BAO_Setting::setItem($filename, self::SETTINGS, $key);
-          }
-        }
-      }
-    }
-  }
+  }  
 
   function processSystemOptions($mode) {
     if ( $mode == 'build' ) {
@@ -206,12 +94,44 @@ class CRM_Cdntaxreceipts_Form_Settings extends CRM_Core_Form {
     }
   }
 
+  function processTemplateOptions($mode) {
+    if ( $mode == 'build' ) {
+      $this->add('select', 'original_template', ts('Original template'),
+        array('' => ts('- select -')) + CRM_Core_BAO_MessageTemplates::getMessageTemplates(FALSE)
+      );
+
+      $this->add('select', 'copy_template', ts('Copy template'),
+        array('' => ts('- select -')) + CRM_Core_BAO_MessageTemplates::getMessageTemplates(FALSE)
+      );
+
+      $this->add('select', 'pdf_format', ts('PDF format'),
+        array('' => ts('- select -')) + CRM_Core_BAO_PdfFormat::getList(TRUE)
+      );      
+    }
+    else if ( $mode == 'defaults' ) {
+      $subject = ts('Your Tax Receipt');
+      $message = ts('Attached please find your official tax receipt for income tax purposes.');
+      $defaults = array(
+        'original_template' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'original_template', NULL, $subject),
+        'copy_template' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'copy_template'),
+        'pdf_format' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'pdf_format'),
+      );
+      return $defaults;
+    }
+    else if ( $mode == 'post' ) {
+      $values = $this->exportValues();                
+      CRM_Core_BAO_Setting::setItem($values['original_template'], self::SETTINGS, 'original_template');
+      CRM_Core_BAO_Setting::setItem($values['copy_template'], self::SETTINGS, 'copy_template');
+      CRM_Core_BAO_Setting::setItem($values['pdf_format'], self::SETTINGS, 'pdf_format');      
+    }
+  }
+
+
   function postProcess() {
-    parent::postProcess();
-    $this->processOrgOptions('post');
-    $this->processReceiptOptions('post');
+    parent::postProcess();    
     $this->processSystemOptions('post');
     $this->processEmailOptions('post');
+    $this->processTemplateOptions('post');    
 
     $statusMsg = ts('Your settings have been saved.');
     CRM_Core_Session::setStatus( $statusMsg, '', 'success' );

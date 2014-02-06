@@ -246,6 +246,8 @@ function cdntaxreceipts_civicrm_managed(&$entities) {
 function cdntaxreceipts_civicrm_tokens( &$tokens ){  
   $tokens['receipt'] = array(
       'receipt.receipt_no' => ts("Id Receipt"),
-      'receipt.issue_type' => ts("Receipt type")      
+      'receipt.issue_type' => ts("Receipt type"),
+      'receipt.receipt_amount' => ts("Receipt ammount"),      
+      'receipt.receive_date' => ts("Receipt date"),      
   );  
 }
