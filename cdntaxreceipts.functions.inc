@@ -67,6 +67,7 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
   // generate the PDF file  
   list($pdf_file, $user_friendly) = cdntaxreceipts_generateFormattedReceipt( $receipt, $collectedPdf, $previewMode );
 
+
   // form a mailParams array to pass to the CiviCRM mail utility
   $attachment = array(
     'fullPath' => $pdf_file,
@@ -122,15 +123,15 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
   if ( $previewMode ) {
     $ret = TRUE;
   }
-  else {
-    $ret = CRM_Utils_Mail::send( $mailparams );
+  else {    
+    $ret = CRM_Utils_Mail::send( $mailparams );    
     if ( $ret == TRUE ) {      
       // we have successfully processed.  Log the receipt.
       cdntaxreceipts_log($receipt);
     }    
-  }
-
+  }  
   if ( $receipt['issue_method'] == 'email' ) {
+
     //unlink($pdf_file); // file now is needed
     return array( $ret, 'email', NULL );
   }
@@ -140,7 +141,8 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
       $pdf_file = NULL;
     }
     // if not unset, cron will clean up the PDF file later on
-    cdntaxreceipts_log($receipt);
+    cdntaxreceipts_log($receipt);   
+    
     return array( TRUE, 'print', $pdf_file );
   }
 }
@@ -190,14 +192,13 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
   $defaults = array();
 
   if($receipt["is_duplicate"]) {
-    $params = array( "id" => CRM_Core_BAO_Setting::getItem('CDNTaxReceipts', 'original_template') );
+    $params = array( "id" => CRM_Core_BAO_Setting::getItem(CDNTAX_SETTINGS, 'original_template') );
   }
   else{
-    $params = array( "id" => CRM_Core_BAO_Setting::getItem('CDNTaxReceipts', 'copy_template') );
+    $params = array( "id" => CRM_Core_BAO_Setting::getItem(CDNTAX_SETTINGS, 'copy_template') );
   }
 
   $page = CRM_Core_BAO_MessageTemplates::retrieve($params, $defaults);
-
 
   $template = array($page->msg_html);  
 
@@ -257,7 +258,11 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
   file_put_contents($config->customFileUploadDir . "/" . 'Receipt-' . $receipt['receipt_no'] . date("H:i:s") . '.pdf', $pdf);
 
 
-  // print_r($receipt);  
+  // print_r($receipt);
+  $z = new ZipArchive();
+  $z->open("test.zip", ZIPARCHIVE::CREATE);
+  //folderToZip("storeThisFolder", $z);
+  $z->close();  
 
   return array(NULL, NULL);
 }
