@@ -122,20 +122,14 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
     $previewMode = FALSE;
     if (isset($params['is_preview']) && $params['is_preview'] == 1 ) {
       $previewMode = TRUE;
-    }
-
-    /**
-     * Drupal module include
-     */
-    //module_load_include('.inc','civicrm_cdntaxreceipts','civicrm_cdntaxreceipts');
-    //module_load_include('.module','civicrm_cdntaxreceipts','civicrm_cdntaxreceipts');
-
-    // start a PDF to collect receipts that cannot be emailed
-    $receiptsForPrinting =& cdntaxreceipts_openCollectedPDF();
+    }       
 
     $emailCount = 0;
     $printCount = 0;
-    $failCount = 0;    
+    $failCount = 0;
+
+    $file_to_zip = array();
+
     foreach ($this->_contributionIds as $item => $contributionId) {      
 
       if ( $emailCount + $printCount + $failCount >= self::MAX_RECEIPT_COUNT ) {
@@ -156,7 +150,12 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
 
         list($issued_on, $receipt_id) = cdntaxreceipts_issued_on($contribution->id);
         if ( empty($issued_on) || ! $originalOnly ) {          
-          list( $ret, $method ) = cdntaxreceipts_issueTaxReceipt( $contribution, $receiptsForPrinting, $previewMode );
+          list( $ret, $method, $path_pdf ) = cdntaxreceipts_issueTaxReceipt( $contribution, $receiptsForPrinting, $previewMode );
+
+          
+          if(isset($path_pdf) && $path_pdf != ""){
+            $file_to_zip[] = $path_pdf;
+          }
 
           if ( $ret == 0 ) {
             $failCount++;
@@ -191,12 +190,41 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
 
     // Issue 1895204: Reset geocoding
     $config->geocodeMethod = $oldGeocode;
-    // 4. send the collected PDF for download
-    // NB: This exits if a file is sent.
-    //echo convert(memory_get_usage(true)); // 123 kb
 
-    //print_r($receiptsForPrinting);
-    //cdntaxreceipts_sendCollectedPDF($receiptsForPrinting, 'Receipts-To-Print-' . REQUEST_TIME . '.pdf');  // EXITS.
+    // 4. send the collected PDF for download
+    $zip = new ZipArchive();
+    
+    $filename = $config->customFileUploadDir . date("YmdHis") .  "zip_receipt.zip" ;
+    if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
+      exit("cannot open <$filename>\n");
+    }
+
+    foreach ($file_to_zip as $key => $file_path) {
+      $new_filename = substr($file_path,strrpos($file_path,'/') + 1);
+      $zip->addFile($file_path, $new_filename);
+    }
+    $zip->close();
+    
+    
+
+    if(!empty($filename)){
+      $config = CRM_Core_Config::singleton();
+      if (file_exists($filename)) {
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename='.basename($filename));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filename));
+        ob_clean();
+        flush();
+        readfile($filename);
+        exit;
+      }
+    }
+ 
   }
 }
 

@@ -78,3 +78,10 @@ Disclaimer
 ------------
 
 This extension has been developed in consultation with a number of non-profits and with the help of a senior accountant. The maintainers have made every reasonable effort to ensure compliance with CRA guidelines and best practices. However, it is the reponsibility of each organization using this extension to do their own due diligence in ensuring compliance with CRA guidelines and with their organizational policies.
+
+DOMPDF Configuration
+------------
+Edit the next vars in dompdf_config.inc.php
+
+def("DOMPDF_ENABLE_REMOTE", true);
+def('DEBUGKEEPTEMP', true);

@@ -36,8 +36,7 @@ function cdntaxreceipts_processTaxReceipt( $receipt, &$collectedPdf = NULL, $pre
   list($displayname, $email) = CRM_Contact_BAO_Contact::getContactDetails($receipt['contact_id']);
 
   // generate the PDF file  
-  list($pdf_file, $user_friendly) = cdntaxreceipts_generateFormattedReceipt( $receipt, $collectedPdf, $previewMode );
-
+  list($pdf_file, $user_friendly) = cdntaxreceipts_generateFormattedReceipt( $receipt, $collectedPdf, $previewMode );  
 
   // form a mailParams array to pass to the CiviCRM mail utility
   $attachment = array(
@@ -209,7 +208,7 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
 
   $config = CRM_Core_Config::singleton();
 
-  $file_path = $config->customFileUploadDir . "/" . 'Receipt-' . $receipt['receipt_no'] . date("H:i:s") . '.pdf';
+  $file_path = $config->customFileUploadDir . 'Receipt-' . $receipt['receipt_no'] . date("H:i:s") . '.pdf';
 
   file_put_contents($file_path, $pdf);
 
