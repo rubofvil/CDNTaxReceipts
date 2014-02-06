@@ -108,11 +108,9 @@ class CRM_Cdntaxreceipts_Form_Settings extends CRM_Core_Form {
         array('' => ts('- select -')) + CRM_Core_BAO_PdfFormat::getList(TRUE)
       );      
     }
-    else if ( $mode == 'defaults' ) {
-      $subject = ts('Your Tax Receipt');
-      $message = ts('Attached please find your official tax receipt for income tax purposes.');
+    else if ( $mode == 'defaults' ) {      
       $defaults = array(
-        'original_template' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'original_template', NULL, $subject),
+        'original_template' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'original_template'),
         'copy_template' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'copy_template'),
         'pdf_format' => CRM_Core_BAO_Setting::getItem(self::SETTINGS, 'pdf_format'),
       );

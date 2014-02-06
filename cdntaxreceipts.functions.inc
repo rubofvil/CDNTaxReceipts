@@ -184,13 +184,18 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
     $display_year = $receipt['receive_date'];
     $display_date = date('M j, Y', mktime(0,0,0,1,1,$receipt['receive_date'])) . ' - ' . date('M j, Y', mktime(0,0,0,12,31,$receipt['receive_date']));
   }
+  
 
-  $line_1 = 'This is your Official Receipt for income tax purposes.';
-
-  $config = CRM_Core_Config::singleton();  
-
-  $params = array( "id" => ID_TEMPLATED_USED );
+  $config = CRM_Core_Config::singleton();    
   $defaults = array();
+
+  if($receipt["is_duplicate"]) {
+    $params = array( "id" => CRM_Core_BAO_Setting::getItem('CDNTaxReceipts', 'original_template') );
+  }
+  else{
+    $params = array( "id" => CRM_Core_BAO_Setting::getItem('CDNTaxReceipts', 'copy_template') );
+  }
+
   $page = CRM_Core_BAO_MessageTemplates::retrieve($params, $defaults);
 
 
@@ -219,8 +224,7 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
   $tokens = CRM_Utils_Token::getTokens($page);  
   $categories = array_keys($tokens);      
 
-  // CRM_Core_Error::debug($receipt['0']['contribution_id']);
-  // die;
+
 
   $params = array('contribution_id' => $receipt['contributions']['0']['contribution_id']);
   $contribution = CRM_Utils_Token::getContributionTokenDetails($params,
@@ -247,13 +251,13 @@ function cdntaxreceipts_generateFormattedReceipt( $receipt, &$collectedPdf = NUL
   
   $pdf = CRM_Utils_PDF_Utils::html2pdf($page, TRUE , TRUE, $format_page_pdf);
 
-  $config = CRM_Core_Config::singleton();  
+  $config = CRM_Core_Config::singleton();
+
 
   file_put_contents($config->customFileUploadDir . "/" . 'Receipt-' . $receipt['receipt_no'] . date("H:i:s") . '.pdf', $pdf);
 
 
-  // print_r($receipt);
-  // die;
+  // print_r($receipt);  
 
   return array(NULL, NULL);
 }

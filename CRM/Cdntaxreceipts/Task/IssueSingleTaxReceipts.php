@@ -196,7 +196,7 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
     //echo convert(memory_get_usage(true)); // 123 kb
 
     //print_r($receiptsForPrinting);
-    cdntaxreceipts_sendCollectedPDF($receiptsForPrinting, 'Receipts-To-Print-' . REQUEST_TIME . '.pdf');  // EXITS.
+    //cdntaxreceipts_sendCollectedPDF($receiptsForPrinting, 'Receipts-To-Print-' . REQUEST_TIME . '.pdf');  // EXITS.
   }
 }
 
