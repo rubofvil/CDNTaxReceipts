@@ -135,8 +135,8 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
 
     $emailCount = 0;
     $printCount = 0;
-    $failCount = 0;
-    foreach ($this->_contributionIds as $item => $contributionId) {
+    $failCount = 0;    
+    foreach ($this->_contributionIds as $item => $contributionId) {      
 
       if ( $emailCount + $printCount + $failCount >= self::MAX_RECEIPT_COUNT ) {
         $status = ts('Maximum of %1 tax receipt(s) were sent. Please repeat to continue processing.', array(1=>self::MAX_RECEIPT_COUNT));
@@ -155,8 +155,7 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
       if ( cdntaxreceipts_eligibleForReceipt($contribution->id) ) {
 
         list($issued_on, $receipt_id) = cdntaxreceipts_issued_on($contribution->id);
-        if ( empty($issued_on) || ! $originalOnly ) {
-
+        if ( empty($issued_on) || ! $originalOnly ) {          
           list( $ret, $method ) = cdntaxreceipts_issueTaxReceipt( $contribution, $receiptsForPrinting, $previewMode );
 
           if ( $ret == 0 ) {
@@ -170,8 +169,8 @@ class CRM_Cdntaxreceipts_Task_IssueSingleTaxReceipts extends CRM_Contribute_Form
           }
 
         }
-      }
-    }
+      }      
+    }    
 
     // 3. Set session status
     if ( $previewMode ) {
